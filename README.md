@@ -1,5 +1,6 @@
 # A variant of eriklindernoren's PyTorch-YOLOv3
 This is a fork of https://github.com/eriklindernoren/PyTorch-YOLOv3.
+
 My initial intent was to get rid of tensorboard and some of torch warnings.
 I ended up focussing on training with custom data as the original authors code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
 
