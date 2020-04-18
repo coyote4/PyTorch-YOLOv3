@@ -4,4 +4,3 @@ torchvision
 matplotlib
 terminaltables
 pillow
-tqdm
