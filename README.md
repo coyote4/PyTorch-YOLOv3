@@ -2,6 +2,7 @@
 This is a fork of https://github.com/eriklindernoren/PyTorch-YOLOv3.
 My initial intent is to get rid of tensorboard and some of torch warnings.
 
+Tested with Python 3.5 and pytorch 2.
 
 ## YOLOv3 paper
 
