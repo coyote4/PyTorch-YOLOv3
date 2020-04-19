@@ -21,6 +21,14 @@ $ cd PyTorch-YOLOv3/
 $ sudo pip install -r requirements.txt
 ```
 
+## Sanity check
+Let us see if the code works.
+```
+$ python train.py
+$ python detect.py
+```
+If no error is printed out, the code works! 
+
 ## Usage
 
 ### Preparing custom dataset
