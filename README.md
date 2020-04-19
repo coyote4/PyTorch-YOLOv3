@@ -81,7 +81,7 @@ It creates data/custom/train.txt and data/custom/valid.txt.
 
 Pick the number of training epochs and batch size and then run the training code.
 ```
-$ python train.py --epochs YOUR_EPOCHS  --batch_size 2 --model_def yolov3-custom.cfg --data_config config/custom.data
+$ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --model_def yolov3-custom.cfg --data_config config/custom.data
 ```
 
 ### Evaluating example
