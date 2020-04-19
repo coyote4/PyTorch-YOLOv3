@@ -59,13 +59,15 @@ Horse
 ```
 i.e., one class per line. 
 
-Move the images of your dataset to the following folder.
+Clear example files and move the images of your dataset to the following folder.
 ```
+$ rm data/custom/images/*jpg
 $ mv YOUR_IMAGES data/custom/images
 ```
 
-Move your label files to the following folder.
+Clear example files and move your label files to the following folder.
 ```
+$ rm data/custom/labels/*txt
 $ mv YOUR_LABELS data/custom/labels
 ```
 
@@ -96,8 +98,10 @@ $ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --model_def
 ### Evaluating example
 
 Check checkpoint files in checkpoints folder and pick one for evaluation.
-Place few images in data/samples for testing your trained model.
+Clear example files and place few images in data/samples for testing your trained model.
 ```
+$ rm data/samples/*jpg
+$ mv YOUR_TEST data/samples
 $ python detect.py --image_folder data/samples/ --checkpoint_model checkpoints/yolov3_ckpt_YOUR_CHECKPOINT.pth
 ```
 
