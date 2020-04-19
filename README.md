@@ -4,6 +4,15 @@ This is a fork of https://github.com/eriklindernoren/PyTorch-YOLOv3.
 My initial intent was to get rid of tensorboard and some of torch warnings.
 I ended up focussing on training with custom data as the original authors code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
 
+Tested with Python 3.6.2 and torch 1.2.0.
+
+## Main changes
+
+* Dropped tensorboard and tensorflow dependencies
+* Replaced ByteTensor with BoolTensor
+* Removed weight loading functionality (pytorch trained model can loaded fine)
+* Removed a common data downloading script
+
 ## Usage
 
 ### Preparing custom dataset
@@ -14,8 +23,6 @@ to be filled
 
 ### Testing example
 to be filled
-
-Tested with Python 3.6.2 and torch 1.2.0.
 
 ## YOLOv3 paper
 
