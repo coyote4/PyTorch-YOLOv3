@@ -13,7 +13,6 @@ def create_modules(module_defs):
     module_list = nn.ModuleList()
     for module_i, module_def in enumerate(module_defs):
         modules = nn.Sequential()
-
         if module_def["type"] == "convolutional":
             bn = int(module_def["batch_normalize"])
             filters = int(module_def["filters"])
@@ -34,7 +33,6 @@ def create_modules(module_defs):
                 modules.add_module(f"batch_norm_{module_i}", nn.BatchNorm2d(filters, momentum=0.9, eps=1e-5))
             if module_def["activation"] == "leaky":
                 modules.add_module(f"leaky_{module_i}", nn.LeakyReLU(0.1))
-
         elif module_def["type"] == "maxpool":
             kernel_size = int(module_def["size"])
             stride = int(module_def["stride"])
@@ -42,20 +40,16 @@ def create_modules(module_defs):
                 modules.add_module(f"_debug_padding_{module_i}", nn.ZeroPad2d((0, 1, 0, 1)))
             maxpool = nn.MaxPool2d(kernel_size=kernel_size, stride=stride, padding=int((kernel_size - 1) // 2))
             modules.add_module(f"maxpool_{module_i}", maxpool)
-
         elif module_def["type"] == "upsample":
             upsample = Upsample(scale_factor=int(module_def["stride"]), mode="nearest")
             modules.add_module(f"upsample_{module_i}", upsample)
-
         elif module_def["type"] == "route":
             layers = [int(x) for x in module_def["layers"].split(",")]
             filters = sum([output_filters[1:][i] for i in layers])
             modules.add_module(f"route_{module_i}", EmptyLayer())
-
         elif module_def["type"] == "shortcut":
             filters = output_filters[1:][int(module_def["from"])]
             modules.add_module(f"shortcut_{module_i}", EmptyLayer())
-
         elif module_def["type"] == "yolo":
             anchor_idxs = [int(x) for x in module_def["mask"].split(",")]
             # Extract anchors
@@ -70,7 +64,6 @@ def create_modules(module_defs):
         # Register module list and number of output filters
         module_list.append(modules)
         output_filters.append(filters)
-
     return hyperparams, module_list
 
 class Upsample(nn.Module):
@@ -85,13 +78,11 @@ class Upsample(nn.Module):
         x = F.interpolate(x, scale_factor=self.scale_factor, mode=self.mode)
         return x
 
-
 class EmptyLayer(nn.Module):
     """Placeholder for 'route' and 'shortcut' layers"""
 
     def __init__(self):
         super(EmptyLayer, self).__init__()
-
 
 class YOLOLayer(nn.Module):
     """Detection layer"""
@@ -123,22 +114,18 @@ class YOLOLayer(nn.Module):
         self.anchor_h = self.scaled_anchors[:, 1:2].view((1, self.num_anchors, 1, 1))
 
     def forward(self, x, targets=None, img_dim=None):
-
         # Tensors for cuda support
         FloatTensor = torch.cuda.FloatTensor if x.is_cuda else torch.FloatTensor
         LongTensor = torch.cuda.LongTensor if x.is_cuda else torch.LongTensor
         ByteTensor = torch.cuda.ByteTensor if x.is_cuda else torch.ByteTensor
-
         self.img_dim = img_dim
         num_samples = x.size(0)
         grid_size = x.size(2)
-
         prediction = (
             x.view(num_samples, self.num_anchors, self.num_classes + 5, grid_size, grid_size)
             .permute(0, 1, 3, 4, 2)
             .contiguous()
         )
-
         # Get outputs
         x = torch.sigmoid(prediction[..., 0])  # Center x
         y = torch.sigmoid(prediction[..., 1])  # Center y
@@ -146,18 +133,15 @@ class YOLOLayer(nn.Module):
         h = prediction[..., 3]  # Height
         pred_conf = torch.sigmoid(prediction[..., 4])  # Conf
         pred_cls = torch.sigmoid(prediction[..., 5:])  # Cls pred.
-
         # If grid size does not match current we compute new offsets
         if grid_size != self.grid_size:
             self.compute_grid_offsets(grid_size, cuda=x.is_cuda)
-
         # Add offset and scale with anchors
         pred_boxes = FloatTensor(prediction[..., :4].shape)
         pred_boxes[..., 0] = x.data + self.grid_x
         pred_boxes[..., 1] = y.data + self.grid_y
         pred_boxes[..., 2] = torch.exp(w.data) * self.anchor_w
         pred_boxes[..., 3] = torch.exp(h.data) * self.anchor_h
-
         output = torch.cat(
             (
                 pred_boxes.view(num_samples, -1, 4) * self.stride,
@@ -166,7 +150,6 @@ class YOLOLayer(nn.Module):
             ),
             -1,
         )
-
         if targets is None:
             return output, 0
         else:
@@ -177,7 +160,6 @@ class YOLOLayer(nn.Module):
                 anchors=self.scaled_anchors,
                 ignore_thres=self.ignore_thres,
             )
-
             # Loss : Mask outputs to ignore non-existing objects (except with conf. loss)
             loss_x = self.mse_loss(x[obj_mask], tx[obj_mask])
             loss_y = self.mse_loss(y[obj_mask], ty[obj_mask])
@@ -188,7 +170,6 @@ class YOLOLayer(nn.Module):
             loss_conf = self.obj_scale * loss_conf_obj + self.noobj_scale * loss_conf_noobj
             loss_cls = self.bce_loss(pred_cls[obj_mask], tcls[obj_mask])
             total_loss = loss_x + loss_y + loss_w + loss_h + loss_conf + loss_cls
-
             # Metrics
             cls_acc = 100 * class_mask[obj_mask].mean()
             conf_obj = pred_conf[obj_mask].mean()
@@ -200,7 +181,6 @@ class YOLOLayer(nn.Module):
             precision = torch.sum(iou50 * detected_mask) / (conf50.sum() + 1e-16)
             recall50 = torch.sum(iou50 * detected_mask) / (obj_mask.sum() + 1e-16)
             recall75 = torch.sum(iou75 * detected_mask) / (obj_mask.sum() + 1e-16)
-
             self.metrics = {
                 "loss": to_cpu(total_loss).item(),
                 "x": to_cpu(loss_x).item(),
