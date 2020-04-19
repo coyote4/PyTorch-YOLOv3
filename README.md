@@ -24,6 +24,7 @@ $ sudo pip install -r requirements.txt
 ## Sanity check
 Let us see if the code works.
 ```
+$ python listFiles.py
 $ python train.py
 $ python detect.py
 ```
