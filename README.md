@@ -90,9 +90,10 @@ It creates data/custom/train.txt and data/custom/valid.txt.
 
 ### Training example
 
-Pick the number of training epochs and batch size and then run the training code.
+Pick the number of training epochs, batch size, and checkpoints. 
+Then run the training code.
 ```
-$ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --model_def yolov3-custom.cfg --data_config config/custom.data
+$ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --checkpoint_interval YOUR_CHECK --model_def yolov3-custom.cfg --data_config config/custom.data
 ```
 
 ### Evaluating example
