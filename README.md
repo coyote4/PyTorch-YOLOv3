@@ -10,7 +10,7 @@ The codes are tested with Python 3.6.2 and torch 1.2.0.
 
 * Dropped tensorboard and tensorflow dependencies
 * Replaced ByteTensor with BoolTensor
-* Removed weight loading functionality (pytorch trained model can loaded fine)
+* Removed weight loading functionality (pytorch trained model can be loaded fine)
 * Removed a common data downloading script
 
 ## Installation
