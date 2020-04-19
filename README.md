@@ -18,7 +18,7 @@ Clone and install requirements
 ```
 $ git clone https://github.com/coyote4/PyTorch-YOLOv3.git
 $ cd PyTorch-YOLOv3/
-$ sudo pip3 install -r requirements.txt
+$ sudo pip install -r requirements.txt
 ```
 
 ## Usage
