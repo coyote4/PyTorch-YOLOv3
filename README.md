@@ -15,7 +15,7 @@ to be filled
 ### Testing example
 to be filled
 
-Tested with Python 3.6 and pytorch 2.
+Tested with Python 3.6.2 and torch 1.2.0.
 
 ## YOLOv3 paper
 
