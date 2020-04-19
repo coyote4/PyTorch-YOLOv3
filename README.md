@@ -14,7 +14,7 @@ The codes are tested with Python 3.6.2 and torch 1.2.0.
 * Removed a common data downloading script
 
 ## Installation
-Clone the code and install required liblalies.
+Clone the code and install required libraries.
 ```
 $ git clone https://github.com/coyote4/PyTorch-YOLOv3.git
 $ cd PyTorch-YOLOv3/
