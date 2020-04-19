@@ -109,7 +109,7 @@ $ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --checkpoin
 
 ### Evaluating example
 
-Check checkpoint files in checkpoints folder and pick one for evaluation.
+Look at checkpoints folder and pick one for evaluation.
 Clear example files and place few images in data/samples for testing your trained model.
 ```
 $ rm data/samples/*jpg
