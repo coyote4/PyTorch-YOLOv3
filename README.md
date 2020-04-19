@@ -15,9 +15,11 @@ The codes are tested with Python 3.6.2 and torch 1.2.0.
 
 ## Installation
 Clone and install requirements
-   $ git clone https://github.com/coyote4/PyTorch-YOLOv3.git
-   $ cd PyTorch-YOLOv3/
-   $ sudo pip3 install -r requirements.txt
+```
+$ git clone https://github.com/coyote4/PyTorch-YOLOv3.git
+$ cd PyTorch-YOLOv3/
+$ sudo pip3 install -r requirements.txt
+```
 
 ## Usage
 
