@@ -27,10 +27,16 @@ $ sudo pip3 install -r requirements.txt
 to be filled
 
 ### Training example
-to be filled
 
-### Testing example
-to be filled
+```
+$ python train.py --model_def config/yolov3.cfg --data_config config/custom.data
+```
+
+### Evaluating example
+
+```
+$ python detect.py --image_folder data/samples/
+```
 
 ## YOLOv3 paper
 
