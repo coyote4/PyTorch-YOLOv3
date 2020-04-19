@@ -35,7 +35,11 @@ To make a model learn, you need images and corresponding labels.
 If you have no idea how to collect such files, it is better to strat with some of common datasets such as [COCO](http://cocodataset.org) used by the original authors.
 
 In this example, handful images and label files are provided for your testing.
-These files are made with blender and opencv.
+
+![example image1](https://github.com/coyote4/PyTorch-YOLOv3/blob/master/data/custom/images/image_0_0.jpg)
+![example image2](https://github.com/coyote4/PyTorch-YOLOv3/blob/master/data/custom/images/image_1_0.jpg)
+
+These files are made with [blender](https://www.blender.org) and [OpenCV](https://opencv.org).
 
 
 ### Preparing custom dataset
