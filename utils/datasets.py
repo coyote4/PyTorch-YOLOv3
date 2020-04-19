@@ -1,16 +1,13 @@
 import glob
 import random
 import os
-import sys
 import numpy as np
 from PIL import Image
 import torch
 import torch.nn.functional as F
-
 from utils.augmentations import horisontal_flip
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
-
 
 def pad_to_square(img, pad_value):
     c, h, w = img.shape
@@ -21,20 +18,16 @@ def pad_to_square(img, pad_value):
     pad = (0, 0, pad1, pad2) if h <= w else (pad1, pad2, 0, 0)
     # Add padding
     img = F.pad(img, pad, "constant", value=pad_value)
-
     return img, pad
-
 
 def resize(image, size):
     image = F.interpolate(image.unsqueeze(0), size=size, mode="nearest").squeeze(0)
     return image
 
-
 def random_resize(images, min_size=288, max_size=448):
     new_size = random.sample(list(range(min_size, max_size + 1, 32)), 1)[0]
     images = F.interpolate(images, size=new_size, mode="nearest")
     return images
-
 
 class ImageFolder(Dataset):
     def __init__(self, folder_path, img_size=416):
@@ -49,12 +42,10 @@ class ImageFolder(Dataset):
         img, _ = pad_to_square(img, 0)
         # Resize
         img = resize(img, self.img_size)
-
         return img_path, img
 
     def __len__(self):
         return len(self.files)
-
 
 class ListDataset(Dataset):
     def __init__(self, list_path, img_size=416, augment=True, multiscale=True, normalized_labels=True):
@@ -75,16 +66,12 @@ class ListDataset(Dataset):
         self.batch_count = 0
 
     def __getitem__(self, index):
-
         # ---------
         #  Image
         # ---------
-
         img_path = self.img_files[index % len(self.img_files)].rstrip()
-
         # Extract image as PyTorch tensor
         img = transforms.ToTensor()(Image.open(img_path).convert('RGB'))
-
         # Handle images with less than three channels
         if len(img.shape) != 3:
             img = img.unsqueeze(0)
@@ -95,13 +82,10 @@ class ListDataset(Dataset):
         # Pad to square resolution
         img, pad = pad_to_square(img, 0)
         _, padded_h, padded_w = img.shape
-
         # ---------
         #  Label
         # ---------
-
         label_path = self.label_files[index % len(self.img_files)].rstrip()
-
         targets = None
         if os.path.exists(label_path):
             boxes = torch.from_numpy(np.loadtxt(label_path).reshape(-1, 5))
@@ -120,15 +104,12 @@ class ListDataset(Dataset):
             boxes[:, 2] = ((y1 + y2) / 2) / padded_h
             boxes[:, 3] *= w_factor / padded_w
             boxes[:, 4] *= h_factor / padded_h
-
             targets = torch.zeros((len(boxes), 6))
             targets[:, 1:] = boxes
-
         # Apply augmentations
         if self.augment:
             if np.random.random() < 0.5:
                 img, targets = horisontal_flip(img, targets)
-
         return img_path, img, targets
 
     def collate_fn(self, batch):
