@@ -2,20 +2,95 @@
 This is a fork of https://github.com/eriklindernoren/PyTorch-YOLOv3.
 
 My initial intent was to get rid of tensorboard and some of torch warnings.
-I ended up focussing on training with custom data as the original authors code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
+I end up focussing on training with custom data as the original authors' code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
+
+The codes are tested with Python 3.6.2 and torch 1.2.0.
+
+## Main changes
+
+* Dropped tensorboard and tensorflow dependencies
+* Replaced ByteTensor with BoolTensor
+* Removed weight loading functionality (pytorch trained YOLO model file can be loaded)
+* Removed a common data downloading script
+
+## Installation
+Clone the code and install required liblalies.
+```
+$ git clone https://github.com/coyote4/PyTorch-YOLOv3.git
+$ cd PyTorch-YOLOv3/
+$ sudo pip install -r requirements.txt
+```
 
 ## Usage
 
 ### Preparing custom dataset
-to be filled
+
+To generate a custom YOLO model for your dataset, move to the configuration folder and create a custom model file.
+```
+$ cd config
+$ bash create_custom_model.sh YOUR_NUMBER_OF_CLASSES 
+```
+It creates a model file named 'yolov3-custom.cfg'.
+
+Check 'config/custom.data' file and make it matched to your dataset.
+```
+$ vim config/custom.data
+```
+
+List all class names in the following file with your favorite text editor (or you may write a simple script to dump your class names into the file). 
+```
+$ cd ..
+$ vim data/custom/classes.names
+```
+e.g., this file may contain something like below.
+```
+Cat
+Dog
+Horse
+```
+i.e., one class per line. 
+
+Move the images of your dataset to the following folder.
+```
+$ mv YOUR_IMAGES data/custom/images
+```
+
+Move your label files to the following folder.
+```
+$ mv YOUR_LABELS data/custom/labels
+```
+
+When the image data are loaded in, the label files are also loaded by locating them in 'data/custom/labels/YOUR_FILE.txt'.
+i.e., the names of image files are already matched to the names of lable files. 'data/custom/images/YOUR_FILE.jpg' and 'data/custom/labels/YOUR_FILE.txt'. 
+
+Each row in the label file contains one bounding box; 'label_idx x_center y_center width height', scaled in [0,1].
+The label_idx is zero-indexed (the smallest class-name index is 0 instead of 1) and corresponds to the row number of the class name in 'data/custom/classes.names'. 
+e.g.,
+```
+0 0.5 0.5 0.2 0.3
+```
+means that a cat is at the center of an image with width of 0.2 and height of 0.3. 
+
+You can split your datasets into training and validation data by using listFiles.py.
+```
+$ python listFiles.py 
+```
+It creates data/custom/train.txt and data/custom/valid.txt.
 
 ### Training example
-to be filled
 
-### Testing example
-to be filled
+Pick the number of training epochs and batch size and then run the training code.
+```
+$ python train.py --epochs YOUR_EPOCHS  --batch_size 2 --model_def yolov3-custom.cfg --data_config config/custom.data
+```
 
-Tested with Python 3.6 and pytorch 2.
+### Evaluating example
+
+Check checkpoint files in checkpoints folder and pick one for evaluation.
+Place few images in data/samples for testing your trained model.
+```
+$ python detect.py --image_folder data/samples/ --checkpoint_model checkpoints/yolov3_ckpt_YOUR_CHECKPOINT.pth
+```
 
 ## YOLOv3 paper
 
