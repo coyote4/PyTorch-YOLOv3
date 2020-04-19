@@ -31,6 +31,12 @@ $ python detect.py
 If no error is printed out, the code works! 
 
 ## Usage
+To make a model learn, you need images and corresponding labels.
+If you have no idea how to collect such files, it is better to strat with some of common datasets such as [COCO](http://cocodataset.org) used by the original authors.
+
+In this example, handful images and label files are provided for your testing.
+These files are made with blender and opencv.
+
 
 ### Preparing custom dataset
 
@@ -87,6 +93,7 @@ You can split your datasets into training and validation data by using listFiles
 $ python listFiles.py 
 ```
 It creates data/custom/train.txt and data/custom/valid.txt.
+The default split is one to one. You can change test_size = YOUR_SPLIT in listFiles.py.
 
 ### Training example
 
