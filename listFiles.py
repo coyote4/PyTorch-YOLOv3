@@ -5,7 +5,7 @@ from sklearn.model_selection import train_test_split
 
 data_dir = 'data/custom/images/*.jpg'
 
-test_size = 0.2
+test_size = 0.5
 
 if __name__ == '__main__':
     newdf = pd.DataFrame(columns=['image'])
