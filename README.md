@@ -28,11 +28,11 @@ $ sudo pip install -r requirements.txt
 To generate a custom YOLO model for your dataset, move to the configuration folder and create a custom model file.
 ```
 $ cd config
-$ bash create_custom_model.sh YOUR_NUMBER_OF_CLASS 
+$ bash create_custom_model.sh YOUR_NUMBER_OF_CLASSES 
 ```
 It creates a model file named 'yolov3-custom.cfg'.
 
-List all class names in the following file with your favorite text editor or by a script. 
+List all class names in the following file with your favorite text editor (or you may write a simple script to dump your class names into the file). 
 ```
 $ vim data/custom/classes.names
 ```
@@ -49,13 +49,21 @@ Move the images of your dataset to the following folder.
 $ mv YOUR_IMAGES data/custom/images
 ```
 
-Move your annotations to the following folder.
+Move your label to the following folder.
 ```
 $ mv YOUR_LABELS data/custom/labels
 ```
-The dataloader expects that the annotation file corresponding to the image 'data/custom/images/train.jpg' has the path 'data/custom/labels/train.txt'. 
-Each row in the annotation file should define one bounding box, using the syntax label_idx x_center y_center width height. 
-The coordinates should be scaled in [0, 1], and the label_idx should be zero-indexed and correspond to the row number of the class name in 'data/custom/classes.names'.
+
+When the image data are loaded in, the label files are also loaded by locating it in 'data/custom/labels/YOUR_FILE.txt'.
+i.e., the names of image files are already macthed to the names of lable files. 'data/custom/images/YOUR_FILE.jpg' and 'data/custom/labels/YOUR_FILE.txt'. 
+
+Each row in the annotation file contains one bounding box; 'label_idx x_center y_center width height', scaled in [0, 1].
+The label_idx is zero-indexed (the smallest class name index is 0 instead of 1) and corresponds to the row number of the class name in 'data/custom/classes.names'. 
+e.g.,
+```
+0 0.5 0.5 0.2 0.3
+```
+means that a cat is at center of the image with width of 0.2 and height of 0.3. 
 
 You can split your datasets into training and validation data by using listFiles.py.
 ```
