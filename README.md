@@ -24,7 +24,44 @@ $ sudo pip3 install -r requirements.txt
 ## Usage
 
 ### Preparing custom dataset
-to be filled
+
+To generate a custom YOLO model for your dataset, move to the configuration folder and create a custom model file.
+```
+$ cd config
+$ bash create_custom_model.sh YOUR_NUMBER_OF_CLASS 
+```
+It creates a model file named 'yolov3-custom.cfg'.
+
+List all class names in the following file with your favorite text editor or by a script. 
+```
+$ vim data/custom/classes.names
+```
+Eg, this file may contain something like below.
+```
+Cat
+Dog
+Horse
+```
+i.e., one class per line. 
+
+Move the images of your dataset to the following folder.
+```
+$ mv YOUR_IMAGES data/custom/images
+```
+
+Move your annotations to the following folder.
+```
+$ mv YOUR_LABELS data/custom/labels
+```
+The dataloader expects that the annotation file corresponding to the image 'data/custom/images/train.jpg' has the path 'data/custom/labels/train.txt'. 
+Each row in the annotation file should define one bounding box, using the syntax label_idx x_center y_center width height. 
+The coordinates should be scaled in [0, 1], and the label_idx should be zero-indexed and correspond to the row number of the class name in 'data/custom/classes.names'.
+
+You can split your datasets into training and validation data by using listFiles.py.
+```
+$ python listFiles.py 
+```
+It creates data/custom/train.txt and data/custom/valid.txt.
 
 ### Training example
 
@@ -35,7 +72,7 @@ $ python train.py --model_def config/yolov3.cfg --data_config config/custom.data
 ### Evaluating example
 
 ```
-$ python detect.py --image_folder data/samples/
+$ python detect.py --image_folder data/samples/ --checkpoint_model checkpoints/yolov3_ckpt_0.pth
 ```
 
 ## YOLOv3 paper
