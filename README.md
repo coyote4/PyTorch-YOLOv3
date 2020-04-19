@@ -2,9 +2,9 @@
 This is a fork of https://github.com/eriklindernoren/PyTorch-YOLOv3.
 
 My initial intent was to get rid of tensorboard and some of torch warnings.
-I ended up focussing on training with custom data as the original authors code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
+I end up focussing on training with custom data as the original authors code is available at https://github.com/pjreddie/darknet, and comparison with respect to the original performace for pytorch implementation is done by eriklindernoren at https://github.com/eriklindernoren/PyTorch-YOLOv3. 
 
-Tested with Python 3.6.2 and torch 1.2.0.
+The codes are tested with Python 3.6.2 and torch 1.2.0.
 
 ## Main changes
 
@@ -12,6 +12,12 @@ Tested with Python 3.6.2 and torch 1.2.0.
 * Replaced ByteTensor with BoolTensor
 * Removed weight loading functionality (pytorch trained model can loaded fine)
 * Removed a common data downloading script
+
+## Installation
+Clone and install requirements
+$ git clone 
+$ cd PyTorch-YOLOv3/
+$ sudo pip3 install -r requirements.txt
 
 ## Usage
 
