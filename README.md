@@ -41,12 +41,12 @@ $ bash create_custom_model.sh YOUR_NUMBER_OF_CLASSES
 ```
 It creates a model file named 'yolov3-custom.cfg'.
 
-Check 'config/custom.data' file and make it matched to your dataset.
+Check 'config/custom.data' file and make it matched to your dataset with your favorite text editor.
 ```
 $ vim config/custom.data
 ```
 
-List all class names in the following file with your favorite text editor (or you may write a simple script to dump your class names into the file). 
+List all class names in the following file by editting (or you may write a simple script to dump your class names into the file). 
 ```
 $ cd ..
 $ vim data/custom/classes.names
