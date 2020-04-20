@@ -104,7 +104,7 @@ The default split is one to one. You can change test_size = YOUR_SPLIT in listFi
 Pick the number of training epochs, batch size, and checkpoints. 
 Then run the training code.
 ```
-$ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --checkpoint_interval YOUR_CHECK --model_def yolov3-custom.cfg --data_config config/custom.data
+$ python train.py --epochs YOUR_EPOCHS  --batch_size YOUR_BATCH_SIZE --checkpoint_interval YOUR_CHECKPOINT --img_size YOUR_IMAGE_SIZE --model_def yolov3-custom.cfg --data_config config/custom.data
 ```
 
 ### Evaluating example
@@ -114,7 +114,7 @@ Clear example files and place few images in data/samples for testing your traine
 ```
 $ rm data/samples/*jpg
 $ mv YOUR_TEST data/samples
-$ python detect.py --image_folder data/samples/ --checkpoint_model checkpoints/yolov3_ckpt_YOUR_CHECKPOINT.pth
+$ python detect.py --image_folder data/samples/ --checkpoint_model checkpoints/yolov3_ckpt_YOUR_CHECKPOINT.pth --img_size YOUR_IMAGE_SIZE 
 ```
 
 ## YOLOv3 paper
